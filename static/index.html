@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WS + Service Worker PoC</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 2rem auto;
+        max-width: 760px;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { font-size: 1.3rem; }
+      .status { padding: .4rem .7rem; border-radius: 6px; display: inline-block; }
+      .status.up { background: #d8f5d8; }
+      .status.down { background: #f5d8d8; }
+      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+      th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid #ddd; }
+      td.price { font-variant-numeric: tabular-nums; }
+      #log {
+        margin-top: 1.5rem; font-family: ui-monospace, monospace;
+        font-size: .8rem; background: #111; color: #ddd; padding: 1rem;
+        border-radius: 6px; height: 220px; overflow-y: auto; white-space: pre-wrap;
+      }
+      .src { color: #888; font-size: .8rem; }
+    </style>
+  </head>
+  <body>
+    <h1>WebSocket &rarr; Service Worker &rarr; Page PoC</h1>
+    <p>
+      <span id="sw-status" class="status down">service worker: starting&hellip;</span>
+    </p>
+    <p class="src">
+      Prices below are read from the <strong>Cache API copy of
+      <code>/prices.json</code></strong>, which the service worker refreshes
+      whenever it receives a <code>price-update</code> over the WebSocket.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Symbol</th><th>Price (from cached /prices.json)</th></tr>
+      </thead>
+      <tbody id="prices"></tbody>
+    </table>
+    <p class="src">cached copy generated at: <span id="generated">&mdash;</span></p>
+
+    <div id="log"></div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
