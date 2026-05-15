@@ -19,6 +19,19 @@
       table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
       th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid #ddd; }
       td.price { font-variant-numeric: tabular-nums; }
+      td.arrow { width: 1.4rem; text-align: center; font-variant-numeric: tabular-nums; }
+      @keyframes flash-up {
+        from { background: #38d39f; }
+        to   { background: transparent; }
+      }
+      @keyframes flash-down {
+        from { background: #ff6b6b; }
+        to   { background: transparent; }
+      }
+      tr.up td   { animation: flash-up 1.1s ease-out; }
+      tr.down td { animation: flash-down 1.1s ease-out; }
+      tr.up .arrow   { color: #1a9e74; }
+      tr.down .arrow { color: #d63d3d; }
       #log {
         margin-top: 1.5rem; font-family: ui-monospace, monospace;
         font-size: .8rem; background: #111; color: #ddd; padding: 1rem;
@@ -40,7 +53,7 @@
 
     <table>
       <thead>
-        <tr><th>Symbol</th><th>Price (from cached /prices.json)</th></tr>
+        <tr><th>Symbol</th><th></th><th>Price (from cached /prices.json)</th></tr>
       </thead>
       <tbody id="prices"></tbody>
     </table>

@@ -11,6 +11,9 @@ const pricesEl = document.getElementById("prices");
 const generatedEl = document.getElementById("generated");
 const swStatusEl = document.getElementById("sw-status");
 
+// Last rendered prices, so we can flash cells that changed.
+let lastPrices = {};
+
 function log(msg) {
   const ts = new Date().toLocaleTimeString();
   logEl.textContent += `[${ts}] ${msg}\n`;
@@ -34,10 +37,22 @@ async function renderCachedPrices() {
     const data = await res.json();
     pricesEl.innerHTML = "";
     for (const [sym, price] of Object.entries(data.prices)) {
+      const prev = lastPrices[sym];
+      let dir = "";
+      let arrow = "";
+      if (prev !== undefined && price !== prev) {
+        dir = price > prev ? "up" : "down";
+        arrow = price > prev ? "▲" : "▼";
+      }
+      // Rebuilding the node restarts the CSS flash animation each update.
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${sym}</td><td class="price">${price}</td>`;
+      if (dir) tr.className = dir;
+      tr.innerHTML =
+        `<td>${sym}</td><td class="arrow">${arrow}</td>` +
+        `<td class="price">${price}</td>`;
       pricesEl.appendChild(tr);
     }
+    lastPrices = { ...data.prices };
     generatedEl.textContent = new Date(
       data.generatedAt * 1000
     ).toLocaleTimeString();
