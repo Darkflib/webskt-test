@@ -61,6 +61,14 @@ server {
 `localhost` is treated as a secure context too, so local testing works
 over plain HTTP without a cert.
 
+## Web Push variant
+
+A second, connection-less implementation lives in [`push/`](push/). There
+the server sends an encrypted Web Push on each price change, so updates
+arrive **even with no tab open** (at the cost of requiring notification
+permission). See [`push/README.md`](push/README.md) for the trade-off
+table.
+
 ## Known limitation (by design, this is a PoC)
 
 Service workers are **not long-lived**. Browsers terminate an idle SW
