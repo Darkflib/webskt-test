@@ -66,8 +66,11 @@ over plain HTTP without a cert.
 A second, connection-less implementation lives in [`push/`](push/). There
 the server sends an encrypted Web Push on each price change, so updates
 arrive **even with no tab open** (at the cost of requiring notification
-permission). See [`push/README.md`](push/README.md) for the trade-off
-table.
+permission). See [`push/README.md`](push/README.md) for run instructions.
+
+For a full explanation of how the two approaches differ — technology,
+service-worker lifecycle, security, and when to pick which — see
+[`COMPARISON.md`](COMPARISON.md).
 
 ## Known limitation (by design, this is a PoC)
 
